@@ -21,13 +21,6 @@ def main():
     args = parse_args()
     config = config_loader(args.config)
     
-    # Here you would typically initialize your model, data module, etc. using the loaded config
-    # For example:
-    # model_class = config['model']
-    # data_module_class = config['data']
-    # model = model_class(**config.get('model_params', {}))
-    # data_module = data_module_class(**config.get('data_params', {}))
-    
     data_module, model = initiate_config_objects(config)
     print("Initiate trainer")
     trainer = Trainer(
