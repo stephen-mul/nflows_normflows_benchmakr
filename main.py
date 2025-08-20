@@ -23,8 +23,6 @@ def main():
     
     data_module, model = initiate_config_objects(config)
 
-    
-
     print("Initiate trainer")
     trainer = Trainer(
         max_epochs=10,
