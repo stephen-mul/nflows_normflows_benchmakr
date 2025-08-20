@@ -1,7 +1,9 @@
+import numpy as np
+import os
+import matplotlib.pyplot as plt
 from lightning import LightningDataModule
 from torch.utils.data import Dataset, DataLoader
 from sklearn.datasets import make_moons
-import numpy as np
 
 class TwoMoonsDataset(Dataset):
     def __init__(self, n_samples=1000, noise=0.1):
@@ -17,15 +19,25 @@ class TwoMoonsDataset(Dataset):
     def __getitem__(self, idx):
         return self.data[idx], self.labels[idx]
     
+
 class TwoMoonsDataModule(LightningDataModule):
-    def __init__(self, n_samples=1000, noise=0.1, batch_size=32):
+    def __init__(self, 
+                 n_samples=1000, 
+                 noise=0.1, 
+                 batch_size=32,
+                 plotting_dir=None,
+                 ) -> None:
         super().__init__()
         self.n_samples = n_samples
         self.noise = noise
         self.batch_size = batch_size
+        self.plotting_dir = plotting_dir
 
     def setup(self, stage=None):
         self.dataset = TwoMoonsDataset(n_samples=self.n_samples, noise=self.noise)
+        if self.plotting_dir:
+            os.makedirs(self.plotting_dir, exist_ok=True)
+            self.plot_data()
 
     def train_dataloader(self):
         return DataLoader(self.dataset, batch_size=self.batch_size, shuffle=True)
@@ -37,7 +49,22 @@ class TwoMoonsDataModule(LightningDataModule):
         return DataLoader(self.dataset, batch_size=self.batch_size, shuffle=False)
     
     def predict_dataloader(self):
-        return DataLoader(self.dataset, batch_size=self.batch_size, shuffle=False) 
+        return DataLoader(self.dataset, batch_size=self.batch_size, shuffle=False)
+    
+    def plot_data(self):
+        plt.figure(figsize=(8, 6))
+        plt.scatter(
+            self.dataset.data[:, 0], 
+            self.dataset.data[:, 1], 
+            c=self.dataset.labels, 
+            cmap='viridis', 
+            s=10
+            )
+        plt.title('Two Moons Dataset')
+        plt.xlabel('Feature 1')
+        plt.ylabel('Feature 2')
+        plt.savefig(os.path.join(self.plotting_dir, 'initial_two_moons_plot.png'))
+        plt.close()
     
 
 
