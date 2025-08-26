@@ -1,5 +1,8 @@
+import torch
+import matplotlib.pyplot as plt
+
 from lightning import LightningModule
-from torch import optim
+from torch import optim, linspace, meshgrid
 
 from nflows.flows.base import Flow
 from nflows.distributions.normal import StandardNormal
@@ -46,5 +49,25 @@ class SimpleFlow(LightningModule):
     def configure_optimizers(self):
         optimizer = optim.Adam(self.parameters(), lr=1e-3)
         return optimizer
+    
+    def inference(self, outtput_dir=None):
+        xline = linspace(-1.5, 2.5, 100)
+        yline = linspace(-0.75, 1.25, 100)
+        xgrid, ygrid = meshgrid(xline, yline)
+        xyinput = torch.cat([xgrid.reshape(-1, 1), ygrid.reshape(-1, 1)], dim=1)
+        with torch.no_grad():
+            zgrid = self.flow.log_prob(xyinput).exp().reshape(100, 100)
+        
+        plt.contourf(xgrid.numpy(),
+                     ygrid.numpy(),
+                     zgrid.numpy(),
+                     )
+        plt.title('Learned Distribution')
+        plt.colorbar()
+        plt.show()
+        if outtput_dir:
+            plt.savefig(f"{outtput_dir}/nflow_learned_distribution.png")
+        plt.close()
+
 
 

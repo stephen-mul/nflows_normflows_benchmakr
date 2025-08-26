@@ -33,6 +33,10 @@ def main():
     print("Start training")
     trainer.fit(model, data_module)
     print("Training complete")
+
+    print("Inference")
+    model.inference(outtput_dir=data_module.plotting_dir)
+    print("Inference complete")
     
 
 if __name__ == "__main__":
