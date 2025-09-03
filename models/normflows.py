@@ -52,6 +52,7 @@ class SimpleFlow(LightningModule):
         yline = linspace(-0.75, 1.25, 100)
         xgrid, ygrid = meshgrid(xline, yline)
         xyinput = torch.cat([xgrid.reshape(-1, 1), ygrid.reshape(-1, 1)], dim=1)
+        xyinput = xyinput.to(self.device)
         with torch.no_grad():
             zgrid = self.flow.log_prob(xyinput).exp().reshape(100, 100)
         
