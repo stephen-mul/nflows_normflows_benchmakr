@@ -63,5 +63,5 @@ class SimpleFlow(LightningModule):
         plt.colorbar()
         plt.show()
         if outtput_dir:
-            plt.savefig(f"{outtput_dir}/nflow_learned_distribution.png")
+            plt.savefig(f"{outtput_dir}/normflow_learned_distribution.png")
         plt.close()

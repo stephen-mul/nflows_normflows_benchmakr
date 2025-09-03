@@ -2,6 +2,6 @@
 
 trainer:
   max_epochs: 500
-  accelerator: "auto"
+  accelerator: "gpu"
   devices: 1
   logger: True
