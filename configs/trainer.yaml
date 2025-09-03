@@ -1,0 +1,7 @@
+### common trainer config
+
+trainer:
+  max_epochs: 500
+  accelerator: "auto"
+  devices: 1
+  logger: True
