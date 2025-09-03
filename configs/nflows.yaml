@@ -1,4 +1,4 @@
-output: /home/stephen/local_workdir/nflows_normflows_benchmark/output
+output: /home/stephen/local_workdir/nflows_normflows_benchmark/output_nflows
 
 data: 
   class: data.two_moons.TwoMoonsDataModule
@@ -6,7 +6,7 @@ data:
     n_samples: 1000
     noise: 0.1
     batch_size: 32
-    plotting_dir: output/plots
+    plotting_dir: output_nflows/plots
 
 model: 
   class: models.nflows.SimpleFlow
