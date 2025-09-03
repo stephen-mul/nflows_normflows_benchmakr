@@ -55,6 +55,7 @@ class SimpleFlow(LightningModule):
         yline = linspace(-0.75, 1.25, 100)
         xgrid, ygrid = meshgrid(xline, yline)
         xyinput = torch.cat([xgrid.reshape(-1, 1), ygrid.reshape(-1, 1)], dim=1)
+        xyinput = xyinput.to(self.device)
         with torch.no_grad():
             zgrid = self.flow.log_prob(xyinput).exp().reshape(100, 100)
         
@@ -64,7 +65,6 @@ class SimpleFlow(LightningModule):
                      )
         plt.title('Learned Distribution')
         plt.colorbar()
-        plt.show()
         if outtput_dir:
             plt.savefig(f"{outtput_dir}/nflow_learned_distribution.png")
         plt.close()
