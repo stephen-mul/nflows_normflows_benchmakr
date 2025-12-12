@@ -37,7 +37,7 @@ def main():
     stop_time = time.time()
     print(f"Training time: {stop_time - start_time:.2f} seconds")
     print(f"Time per epoch: {(stop_time - start_time)/config['trainer']['max_epochs']:.2f} seconds")
-    print("Training complete")
+    print("Training complete")  
 
     print("Inference")
     model.inference(outtput_dir=data_module.plotting_dir)
